@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百种语言的"我爱你"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .heart {
+            color: #ff6b6b;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        .display-container {
+            position: relative;
+            height: 180px;
+            margin: 40px auto;
+            perspective: 800px;
+        }
+        
+        .display-box {
+            position: relative;
+            width: 90%;
+            max-width: 700px;
+            height: 100%;
+            margin: 0 auto;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scrolling-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 1s ease, opacity 1s ease;
+        }
+        
+        .scrolling-text.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .language {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffd166;
+            text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+        }
+        
+        .phrase {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .counter {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+        
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.1); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            50% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .phrase { font-size: 2.2rem; }
+            .language { font-size: 1.3rem; }
+            .display-container { height: 150px; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .phrase { font-size: 1.8rem; }
+            .language { font-size: 1.1rem; }
+            .display-container { height: 130px; }
+            .btn { padding: 10px 20px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>百种语言的<span class="heart">❤️</span>"我爱你"</h1>
+        <p class="subtitle">让爱在世界各地传播</p>
+        
+        <div class="display-container">
+            <div class="display-box">
+                <div class="scrolling-text active">
+                    <div class="language">中文 (Chinese)</div>
+                    <div class="phrase">我爱你</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="pauseBtn">暂停</button>
+            <button class="btn" id="prevBtn">上一个</button>
+            <button class="btn" id="nextBtn">下一个</button>
+        </div>
+        
+        <div class="counter">
+            当前显示: <span id="currentIndex">1</span> / <span id="totalCount">100</span>
+        </div>
+        
+        <div class="instructions">
+            <p>这个展示包含了100种不同语言中表达"我爱你"的方式。每种语言都会在屏幕上滚动显示，并伴随平滑的过渡动画。</p>
+            <p>你可以使用控制按钮暂停自动播放、手动查看上一个或下一个表达方式。</p>
+        </div>
+    </div>
+    
+    <script>
+        // 100种语言的"我爱你"
+        const lovePhrases = [
+            { language: "中文 (Chinese)", phrase: "我爱你" },
+            { language: "英文 (English)", phrase: "I love you" },
+            { language: "西班牙语 (Spanish)", phrase: "Te quiero" },
+            { language: "法语 (French)", phrase: "Je t'aime" },
+            { language: "德语 (German)", phrase: "Ich liebe dich" },
+            { language: "意大利语 (Italian)", phrase: "Ti amo" },
+            { language: "日语 (Japanese)", phrase: "愛してる (Aishiteru)" },
+            { language: "韩语 (Korean)", phrase: "사랑해 (Saranghae)" },
+            { language: "俄语 (Russian)", phrase: "Я тебя люблю (Ya tebya lyublyu)" },
+            { language: "葡萄牙语 (Portuguese)", phrase: "Eu te amo" },
+            { language: "阿拉伯语 (Arabic)", phrase: "أحبك (Uhibbuka)" },
+            { language: "印地语 (Hindi)", phrase: "मैं तुमसे प्यार करता हूँ (Main tumse pyaar karta hoon)" },
+            { language: "孟加拉语 (Bengali)", phrase: "আমি তোমায় ভালোবাসি (Ami tomake bhalobashi)" },
+            { language: "土耳其语 (Turkish)", phrase: "Seni seviyorum" },
+            { language: "荷兰语 (Dutch)", phrase: "Ik hou van je" },
+            { language: "瑞典语 (Swedish)", phrase: "Jag älskar dig" },
+            { language: "波兰语 (Polish)", phrase: "Kocham cię" },
+            { language: "泰语 (Thai)", phrase: "ฉันรักคุณ (Chan rak khun)" },
+            { language: "越南语 (Vietnamese)", phrase: "Tôi yêu bạn" },
+            { language: "希腊语 (Greek)", phrase: "Σ' αγαπώ (S' agapó)" },
+            { language: "捷克语 (Czech)", phrase: "Miluji tě" },
+            { language: "丹麦语 (Danish)", phrase: "Jeg elsker dig" },
+            { language: "芬兰语 (Finnish)", phrase: "Rakastan sinua" },
+            { language: "挪威语 (Norwegian)", phrase: "Jeg elsker deg" },
+            { language: "匈牙利语 (Hungarian)", phrase: "Szeretlek" },
+            { language: "罗马尼亚语 (Romanian)", phrase: "Te iubesc" },
+            { language: "乌克兰语 (Ukrainian)", phrase: "Я тебе люблю (Ya tebe lyublyu)" },
+            { language: "印尼语 (Indonesian)", phrase: "Aku cinta kamu" },
+            { language: "马来语 (Malay)", phrase: "Saya sayang awak" },
+            { language: "菲律宾语 (Filipino)", phrase: "Mahal kita" },
+            { language: "希伯来语 (Hebrew)", phrase: "אני אוהב אותך (Ani ohev otakh)" },
+            { language: "波斯语 (Persian)", phrase: "دوستت دارم (Dooset daram)" },
+            { language: "乌尔都语 (Urdu)", phrase: "میں تم سے پیار کرتا ہوں (Main tum se pyar karta hoon)" },
+            { language: "泰米尔语 (Tamil)", phrase: "நான் உன்னை காதலிக்கிறேன் (Nāṉ uṉṉai kātalikkiṟēṉ)" },
+            { language: "泰卢固语 (Telugu)", phrase: "నేను నిన్ను ప్రేమిస్తున్నాను (Nēnu ninnu prēmistunnānu)" },
+            { language: "马拉地语 (Marathi)", phrase: "माझं तुझ्यावर प्रेम आहे (Mājh tujhyāvar prem āhe)" },
+            { language: "旁遮普语 (Punjabi)", phrase: "ਮੈਂ ਤੁਹਾਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ (Main tuhānū pi'ār kardā hāṁ)" },
+            { language: "古吉拉特语 (Gujarati)", phrase: "હું તને પ્રેમ કરું છું (Huṁ tane prem karuṁ chuṁ)" },
+            { language: "卡纳达语 (Kannada)", phrase: "ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ (Nānu ninnannu prītisuttēne)" },
+            { language: "僧伽罗语 (Sinhala)", phrase: "මම ඔයාට ආදරෙයි (Mama oyaṭa ādareyi)" },
+            { language: "缅甸语 (Burmese)", phrase: "မင်းကိုချစ်တယ် (Mainnkohkyittaal)" },
+            { language: "高棉语 (Khmer)", phrase: "ខ្ញុំស្រលាញ់អ្នក (Khnhom sralanh anak)" },
+            { language: "老挝语 (Lao)", phrase: "ຂ້ອຍຮັກເຈົ້າ (Khony hak chao)" },
+            { language: "蒙古语 (Mongolian)", phrase: "Би чамд хайртай (Bi chamd khairtai)" },
+            { language: "尼泊尔语 (Nepali)", phrase: "म तिमीलाई माया गर्छु (Ma timīlā'ī māyā garchu)" },
+            { language: "斯瓦希里语 (Swahili)", phrase: "Nakupenda" },
+            { language: "豪萨语 (Hausa)", phrase: "Ina son ku" },
+            { language: "约鲁巴语 (Yoruba)", phrase: "Mo nifẹ rẹ" },
+            { language: "伊博语 (Igbo)", phrase: "A hụrụ m gị n'anya" },
+            { language: "祖鲁语 (Zulu)", phrase: "Ngiyakuthanda" },
+            { language: "阿姆哈拉语 (Amharic)", phrase: "እወድሃለሁ (Ewedihalehu)" },
+            { language: "南非荷兰语 (Afrikaans)", phrase: "Ek het jou lief" },
+            { language: "阿尔巴尼亚语 (Albanian)", phrase: "Të dua" },
+            { language: "亚美尼亚语 (Armenian)", phrase: "Եեզ սիրում եմ (Yes sirum em)" },
+            { language: "阿塞拜疆语 (Azerbaijani)", phrase: "Səni sevirəm" },
+            { language: "巴斯克语 (Basque)", phrase: "Maite zaitut" },
+            { language: "白俄罗斯语 (Belarusian)", phrase: "Я цябе кахаю (Ja ciabie kachaju)" },
+            { language: "保加利亚语 (Bulgarian)", phrase: "Обичам те (Obicham te)" },
+            { language: "加泰罗尼亚语 (Catalan)", phrase: "T'estimo" },
+            { language: "克罗地亚语 (Croatian)", phrase: "Volim te" },
+            { language: "爱沙尼亚语 (Estonian)", phrase: "Ma armastan sind" },
+            { language: "世界语 (Esperanto)", phrase: "Mi amas vin" },
+            { language: "格鲁吉亚语 (Georgian)", phrase: "მე შენ მიყვარხარ (Me shen mikvarxar)" },
+            { language: "古吉拉特语 (Gujarati)", phrase: "હું તને પ્રેમ કરું છું (Huṁ tane prem karuṁ chuṁ)" },
+            { language: "海地克里奥尔语 (Haitian Creole)", phrase: "Mwen renmen ou" },
+            { language: "冰岛语 (Icelandic)", phrase: "Ég elska þig" },
+            { language: "爱尔兰语 (Irish)", phrase: "Is breá liom tú" },
+            { language: "卡纳达语 (Kannada)", phrase: "ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ (Nānu ninnannu prītisuttēne)" },
+            { language: "哈萨克语 (Kazakh)", phrase: "Мен сені сүйемін (Men seni süyemin)" },
+            { language: "库尔德语 (Kurdish)", phrase: "Ez te hez dikim" },
+            { language: "吉尔吉斯语 (Kyrgyz)", phrase: "Мен сени сүйөм (Men seni süyöm)" },
+            { language: "拉脱维亚语 (Latvian)", phrase: "Es tevi mīlu" },
+            { language: "立陶宛语 (Lithuanian)", phrase: "Aš tave myliu" },
+            { language: "卢森堡语 (Luxembourgish)", phrase: "Ech hunn dech gär" },
+            { language: "马其顿语 (Macedonian)", phrase: "Те сакам (Te sakam)" },
+            { language: "马尔加什语 (Malagasy)", phrase: "Tiako ianao" },
+            { language: "马耳他语 (Maltese)", phrase: "Inħobbok" },
+            { language: "毛利语 (Maori)", phrase: "Kei te aroha au ki a koe" },
+            { language: "尼泊尔语 (Nepali)", phrase: "म तिमीलाई माया गर्छु (Ma timīlā'ī māyā garchu)" },
+            { language: "奥里亚语 (Odia)", phrase: "ମୁଁ ତୁମକୁ ଭଲପାଏ (Mu tumaku bhalapae)" },
+            { language: "普什图语 (Pashto)", phrase: "زه تا سره مینه لرم (Za ta sara meena laram)" },
+            { language: "波斯语 (Persian)", phrase: "دوستت دارم (Dooset daram)" },
+            { language: "旁遮普语 (Punjabi)", phrase: "ਮੈਂ ਤੁਹਾਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ (Main tuhānū pi'ār kardā hāṁ)" },
+            { language: "克丘亚语 (Quechua)", phrase: "Kuyayki" },
+            { language: "萨摩亚语 (Samoan)", phrase: "Ou te alofa ia te oe" },
+            { language: "塞尔维亚语 (Serbian)", phrase: "Волим те (Volim te)" },
+            { language: "塞索托语 (Sesotho)", phrase: "Ke a go rata" },
+            { language: "修纳语 (Shona)", phrase: "Ndinokuda" },
+            { language: "信德语 (Sindhi)", phrase: "مان توکان پیار کان ٿو (Maan tokhaan pyaar kando ahyan)" },
+            { language: "斯洛伐克语 (Slovak)", phrase: "Milujem ťa" },
+            { language: "斯洛文尼亚语 (Slovenian)", phrase: "Ljubim te" },
+            { language: "索马里语 (Somali)", phrase: "Waan ku jeclahay" },
+            { language: "巽他语 (Sundanese)", phrase: "Abdi bogoh ka anjeun" },
+            { language: "塔加路语 (Tagalog)", phrase: "Mahal kita" },
+            { language: "塔吉克语 (Tajik)", phrase: "Ман туро дӯст медорам (Man turo dust medoram)" },
+            { language: "泰米尔语 (Tamil)", phrase: "நான் உன்னை காதலிக்கிறேன் (Nāṉ uṉṉai kātalikkiṟēṉ)" },
+            { language: "鞑靼语 (Tatar)", phrase: "Мин сине яратам (Min sine yaratam)" },
+            { language: "泰卢固语 (Telugu)", phrase: "నేను నిన్ను ప్రేమిస్తున్నాను (Nēnu ninnu prēmistunnānu)" },
+            { language: "土库曼语 (Turkmen)", phrase: "Men seni söýýärin" },
+            { language: "维吾尔语 (Uyghur)", phrase: "مەن سىزنى سۆيىمەن (Men sizni söyimen)" },
+            { language: "乌兹别克语 (Uzbek)", phrase: "Men seni sevaman" },
+            { language: "威尔士语 (Welsh)", phrase: "Rwy'n dy garu di" },
+            { language: "科萨语 (Xhosa)", phrase: "Ndiyakuthanda" },
+            { language: "意第绪语 (Yiddish)", phrase: "איך ליב דיך (Ikh lib dikh)" },
+            { language: "约鲁巴语 (Yoruba)", phrase: "Mo nifẹ rẹ" },
+            { language: "祖鲁语 (Zulu)", phrase: "Ngiyakuthanda" }
+        ];
+
+        // 获取DOM元素
+        const displayBox = document.querySelector('.display-box');
+        const currentIndexSpan = document.getElementById('currentIndex');
+        const totalCountSpan = document.getElementById('totalCount');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // 初始化变量
+        let currentIndex = 0;
+        let isPlaying = true;
+        let intervalId;
+        totalCountSpan.textContent = lovePhrases.length;
+
+        // 创建文本元素
+        function createTextElement(index) {
+            const textElement = document.createElement('div');
+            textElement.className = 'scrolling-text';
+            textElement.innerHTML = `
+                <div class="language">${lovePhrases[index].language}</div>
+                <div class="phrase">${lovePhrases[index].phrase}</div>
+            `;
+            return textElement;
+        }
+
+        // 显示当前文本
+        function showText(index) {
+            // 移除当前活动的文本
+            const currentActive = displayBox.querySelector('.scrolling-text.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+                setTimeout(() => {
+                    displayBox.removeChild(currentActive);
+                }, 1000);
+            }
+
+            // 创建并添加新文本
+            const newText = createTextElement(index);
+            displayBox.appendChild(newText);
+            
+            // 添加动画延迟
+            setTimeout(() => {
+                newText.classList.add('active');
+            }, 50);
+            
+            // 更新计数器
+            currentIndexSpan.textContent = index + 1;
+        }
+
+        // 下一个文本
+        function nextText() {
+            currentIndex = (currentIndex + 1) % lovePhrases.length;
+            showText(currentIndex);
+        }
+
+        // 上一个文本
+        function prevText() {
+            currentIndex = (currentIndex - 1 + lovePhrases.length) % lovePhrases.length;
+            showText(currentIndex);
+        }
+
+        // 播放/暂停控制
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                pauseBtn.textContent = '暂停';
+                startAutoPlay();
+            } else {
+                pauseBtn.textContent = '播放';
+                clearInterval(intervalId);
+            }
+        }
+
+        // 开始自动播放
+        function startAutoPlay() {
+            clearInterval(intervalId);
+            intervalId = setInterval(nextText, 3000);
+        }
+
+        // 初始化显示
+        showText(currentIndex);
+        startAutoPlay();
+
+        // 添加事件监听器
+        pauseBtn.addEventListener('click', togglePlay);
+        prevBtn.addEventListener('click', () => {
+            if (isPlaying) togglePlay();
+            prevText();
+        });
+        nextBtn.addEventListener('click', () => {
+            if (isPlaying) togglePlay();
+            nextText();
+        });
+    </script>
+</body>
+</html>
